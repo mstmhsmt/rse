@@ -16,7 +16,7 @@ Mar. 8, 2023
 ## Description
 
 This is a replication package of the experiments conducted for the paper "_Phylogenetic Analysis of Reticulate Software Evolution_" by Akira Mori and Masatomo Hashimoto.
-The source code is available at a [GitHub repository](https://github.com/mstmhsmt/rse).
+The source code is available [here](https://github.com/mstmhsmt/rse).
 
 The experiments ware conducted on the following projects.
 
