@@ -12,9 +12,11 @@ Mar. 8, 2023
 * `argouml-variant-features_abbr.json`: correspondence between variant IDs and abbraviated features for ArgoUML-SPL
 * `*.txz`: archives of source code files (also contained in the docker images)
 
+
 ## Description
 
 This is a replication package of the experiments conducted for the paper "_Phylogenetic Analysis of Reticulate Software Evolution_" by Akira Mori and Masatomo Hashimoto.
+The source code is available at a [GitHub repository](https://github.com/mstmhsmt/rse).
 
 The experiments ware conducted on the following projects.
 
@@ -23,6 +25,7 @@ The experiments ware conducted on the following projects.
 * _ArgoUML_: Variants of ArgoUML generated from 
 * _ATK2_: A family of TOPPERS Automotive kernels
 * _BIND9_: A family of BIND9 DNS systems
+
 
 ## Replication Steps
 
