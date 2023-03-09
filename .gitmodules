@@ -1,0 +1,3 @@
+[submodule "cca"]
+	path = cca
+	url = https://github.com/codinuum/cca
