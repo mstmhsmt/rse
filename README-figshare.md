@@ -65,12 +65,8 @@ A project ID is assigned for each project as follows.
 | ATK2    | `atk2_1_4_0` |
 | BIND9   | `bind9`    |
 
-Note that you need to extract source files in archives placed at the `project` directory.
 For example, a distance matrix for Emacsen (`emacs.c` only) is computed by the following.
 
-    user@xxx:~$ cd projects
-    user@xxx:~/projects$ tar Jxf emacs_c.txz
-    user@xxx:~/projects$ cd ..
     user@xxx:~$ ./mkdistmat.sh emacs_c
 
 The distance matrix will be placed at "`./work.emacs_c/infile.emacs_c.diffast.d1`".
