@@ -38,7 +38,7 @@ Computing distance matrices (Step 3) will take time (hours or days). We recommen
 
 First of all, you need to import the docker image for `x64` (`x86_64`, `amd64`) hosts. This step may take some time.
 
-    $ ./import_docker_image.sh rse-image-20221021.txz
+    $ sh import_docker_image.sh rse-image-20221028.txz
 
 If your host's architecture is `arm64`, import "`rse-image-arm64-20221028.txz`" insead of "`rse-image-20221028.txz`".
 
