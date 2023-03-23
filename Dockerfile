@@ -1,4 +1,4 @@
-FROM codinuum/cca:devel-20.04
+FROM codinuum/cca:devel
 
 LABEL maintainer="mstmhsmt"
 
@@ -27,7 +27,9 @@ USER $USER
 
 COPY --chown=$USER:$GROUP configs configs/
 COPY --chown=$USER:$GROUP projects projects/
-COPY --chown=$USER:$GROUP README.md mkdistmat.py mkdistmat.sh .
+COPY --chown=$USER:$GROUP mkdistmat.py mkdistmat.sh .
+COPY --chown=$USER:$GROUP get_variant_specs.py argouml-variant-features_abbr.json .
+COPY --chown=$USER:$GROUP README-figshare.md ./README.md
 
 RUN set -x && \
     echo 'export PATH=/opt/cca/bin:${PATH}' >> .bashrc

@@ -23,6 +23,7 @@ __author__ = 'Masatomo Hashimoto <m.hashimoto@stair.center>'
 import os
 import sys
 import random
+import math
 import logging
 import multiprocessing as mp
 
@@ -90,6 +91,8 @@ def _do_task(args_kw, pid):
         r = diff_dirs(diffast, odir, ndir,
                       quiet=True,
                       include=include, exclude=exclude,
+                      # aggressive=True,
+                      # no_unnamed_node_moves=True,
                       # local_cache_name=str(pid),
                       keep_going=True,
                       **kw)
@@ -113,46 +116,53 @@ def _do_task(args_kw, pid):
     logger.info(f'removed={removed} added={added} moved={moved}'
                 f' nrelabels={nrelabels} nmoves={nmoves} nmovrels={nmovrels}')
 
-    use_similarity = False
-    count_moved_nodes = True
+    use_similarity = mode == 0
+    use_poisson = mode == 1
+    # count_moved_nodes = True
+    count_moved_nodes = False
 
-    if use_similarity:
-        logger.info('using dissimilarity')
-        cost = nnodes
-        # nm = (nmappings - nrelabels - nmoves + nmovrels) * 2
-        # nm = (nmappings - nmoves) * 2
-        nm = nmappings * 2
-        logger.info(f'nnodes={nnodes} nm={nm}')
-
+    if use_poisson:
+        sim = float((nmappings - nrelabels) * 2) / float(nnodes)
+        # sim = float(nmappings * 2) / float(nnodes)
+        dist = -math.log(sim)
     else:
-        if count_moved_nodes:
-            cost = removed + added + nrelabels + moved
+        if use_similarity:
+            logger.info('using similarity')
+            cost = nnodes
+            # nm = (nmappings - nrelabels - nmoves + nmovrels) * 2
+            # nm = (nmappings - nmoves) * 2
+            nm = nmappings * 2
+            logger.info(f'nnodes={nnodes} nm={nm}')
 
-        tbl = {
-            0: lambda x: 1,
-            1: lambda x: x,
-            2: lambda x: x - nrelabels,
-            3: lambda x: x - nrelabels - nmoves + nmovrels,
-            4: lambda x: x + (nmappings - nrelabels - nmoves + nmovrels),
-            5: lambda x: x - nrelabels - nmoves + nmovrels + (nmoves - nmovrels) / 2,
-            6: lambda x: x - nmoves + nmoves / 2,
-        }
-
-        nm = tbl[mode](nmappings)
-
-        logger.info(f'nm={nm}')
-
-    if nm > 0:
-        dist = float(cost) / float(nm)
-    else:
-        if cost == 0:
-            dist = 0.0
         else:
-            # dist = float('inf')
-            dist = float(cost)
+            if count_moved_nodes:
+                cost = removed + added + nrelabels + moved
 
-    # sim = float((nmappings - nrelabels - nmoves + nmovrels) * 2) / float(nnodes)
-    # dist = 1.0 - sim
+            tbl = {
+                2: lambda x: 1,
+                3: lambda x: x,
+                4: lambda x: x - nrelabels,
+                5: lambda x: x - nrelabels - nmoves + nmovrels,
+                6: lambda x: x + (nmappings - nrelabels - nmoves + nmovrels),
+                7: lambda x: x - nrelabels - nmoves + nmovrels + (nmoves - nmovrels) / 2,
+                8: lambda x: x - nmoves + nmoves / 2,
+            }
+
+            nm = tbl[mode](nmappings)
+
+            logger.info(f'nm={nm}')
+
+        if nm > 0:
+            dist = float(cost) / float(nm)
+        else:
+            if cost == 0:
+                dist = 0.0
+            else:
+                # dist = float('inf')
+                dist = float(cost)
+
+        # sim = float((nmappings - nrelabels - nmoves + nmovrels) * 2) / float(nnodes)
+        # dist = 1.0 - sim
 
     return (pid, tid, old, new, str(dist))
 
@@ -269,12 +279,15 @@ def mkdistmat():
                         default='.', metavar='DIR',
                         help='set base dir to DIR')
 
+    parser.add_argument('--use-cache', dest='use_cache',
+                        action='store_true', help='use cache')
+
     parser.add_argument('-p', '--nprocs', dest='nprocs',
                         default=DEFAULT_NPROCS, type=int,
                         help='number of processes', metavar='N')
 
     parser.add_argument('--dist-mode', dest='dist_mode',
-                        default=1, type=int, choices=[0, 1],
+                        default=3, type=int, choices=[0, 1, 2, 3, 4, 5, 6, 7, 8],
                         help='distance mode', metavar='N')
 
     parser.add_argument('--factor', dest='factor', default=1.0, type=float,
@@ -296,7 +309,7 @@ def mkdistmat():
         os.makedirs(args.basedir)
         print(f'"{args.basedir}" created')
 
-    kw = setup_kwargs(conf, args.basedir)
+    kw = setup_kwargs(conf, args.basedir, usecache=args.use_cache)
 
     tasks = gen_tasks(conf)
 
