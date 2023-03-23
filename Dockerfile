@@ -27,8 +27,8 @@ USER $USER
 
 COPY --chown=$USER:$GROUP configs configs/
 COPY --chown=$USER:$GROUP projects projects/
-COPY --chown=$USER:$GROUP mkdistmat.py mkdistmat.sh .
-COPY --chown=$USER:$GROUP get_variant_specs.py argouml-variant-features_abbr.json .
+COPY --chown=$USER:$GROUP mkdistmat.py mkdistmat.sh ./
+COPY --chown=$USER:$GROUP get_variant_specs.py argouml-variant-features_abbr.json ./
 COPY --chown=$USER:$GROUP README-figshare.md ./README.md
 
 RUN set -x && \
