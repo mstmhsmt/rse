@@ -2,8 +2,11 @@
   "proj_id": "marlin",
   "exclude": ["example_configurations"],
   "abbrev_tbl": {
-    "Marlin-1.0.0-beta": "1.0.0beta",
+    "BCN3DSigma": "BCN3DSgm",
+    "CR10": "CR10",
+    "Ender3": "Endr3",
     "Marlin-1.0.0": "1.0.0",
+    "Marlin-1.0.0-beta": "1.0.0beta",
     "Marlin-1.0.1": "1.0.1",
     "Marlin-1.0.2": "1.0.2",
     "Marlin-1.0.2-2": "1.0.2-2",
@@ -33,6 +36,7 @@
     "Mini-2.0.1": "M2.0.1",
     "Mini-2.0.5": "M2.0.5",
     "Mini-2.0.6": "M2.0.6",
+    "Prusa-MK3S": "Prus3S",
     "TAZ-1.0": "T1.0",
     "TAZ-2.0": "T2.0",
     "TAZ-2.1": "T2.1",
@@ -43,10 +47,6 @@
     "TAZ5-1.0.0.1": "T5-1.0.0",
     "TAZ5-2015Q1": "T5-2015Q1",
     "TAZ6-1.0.2.19": "T6-1.0.2",
-    "BCN3DSigma": "BCN3DSgm",
-    "CR10": "CR10",
-    "Ender3": "Endr3",
-    "Prusa-MK3S": "Prus3S",
     "Tarantula": "Trntl",
     "Ultimaker2": "Ultmkr2"
   }
