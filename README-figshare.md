@@ -5,8 +5,8 @@ Mar. 23, 2023
 ## Files
 
 * `README.md`: this file
-* `rse-image-20230323.txz`: docker image (for `amd64`)
-* `rse-image-arm64-20230323.txz`: docker image (for `arm64`)
+* `rse-image-*.txz`: docker image (for `amd64`)
+* `rse-image-arm64-*.txz`: docker image (for `arm64`)
 * `import_docker_image.sh`: script for importing a docker image
 * `infile.*`: distance matrices
 * `argouml-variant-features_abbr.json`: correspondence between variant IDs and abbraviated features for ArgoUML-SPL
@@ -33,21 +33,27 @@ Computing distance matrices (Step 3) will take time (hours or days). We recommen
 * CPUs: more than 8
 * Memory: more than 2G x CPUs
 
+
 ### 1. Importing the docker image
 
-First of all, you need to import the docker image for `x64` (`x86_64`, `amd64`) hosts. This step may take some time.
+You can pull the image from Docker Hub.
 
-    $ sh import_docker_image.sh rse-image-20230323.txz
+    $ docker pull mhashimoto/rse
 
-If your host's architecture is `arm64`, import "`rse-image-arm64-20230323.txz`" insead of "`rse-image-20230323.txz`".
+Otherwise, you need to import the docker image for `x64` (`x86_64`, `amd64`) hosts. This step may take some time.
+
+    $ sh import_docker_image.sh rse-image-20230327.txz
+
+If your host's architecture is `arm64`, import "`rse-image-arm64-20230327.txz`" insead of "`rse-image-20230327.txz`".
 
 
 ### 2. Starting a container process for the experiment
 
 You can start a session in a new container as follows.
 
-    $ docker run -ti --name rse -v $PWD:/mnt/work rse
+    $ docker run -ti --name rse -v $PWD:/mnt/work mhashimoto/rse
 
+Note that the image name should be `rse` instead of `mhashimoto/rse`, if you imported the image manually.
 
 ### 3. Computing distance matrices
 
@@ -75,3 +81,10 @@ You can convert the numbers into variant specs by the following.
     user@xxx:~$ ./get_variant_specs.py work.argouml-variants/infile.argouml-variants.diffast.d3
 
 The result will be placed at "`./work.argouml-variants/infile.argouml-variants.diffast.d3.abbr`".
+
+
+### 4. Processing distance matrices
+
+The distance matrices can be processed by the following tools.
+* [SplitsTree](https://uni-tuebingen.de/en/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/splitstree/)
+* [T-REX](http://www.trex.uqam.ca/index.php?action=trex&menuD=2&project=trex)
